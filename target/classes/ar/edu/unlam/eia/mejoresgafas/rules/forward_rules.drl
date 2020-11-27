@@ -1,0 +1,215 @@
+//package
+package forwardRules
+
+//imports
+import ar.edu.unlam.eia.mejoresgafas.model.Cabello;
+import ar.edu.unlam.eia.mejoresgafas.model.ColorMarco;
+import ar.edu.unlam.eia.mejoresgafas.model.Expresion;
+import ar.edu.unlam.eia.mejoresgafas.model.FormaMarco;
+import ar.edu.unlam.eia.mejoresgafas.model.Frente;
+import ar.edu.unlam.eia.mejoresgafas.model.Gafas;
+import ar.edu.unlam.eia.mejoresgafas.model.Mandibula;
+import ar.edu.unlam.eia.mejoresgafas.model.Mejillas;
+import ar.edu.unlam.eia.mejoresgafas.model.Menton;
+import ar.edu.unlam.eia.mejoresgafas.model.Piel;
+import ar.edu.unlam.eia.mejoresgafas.model.Pomulos;
+import ar.edu.unlam.eia.mejoresgafas.model.Rasgos;
+import ar.edu.unlam.eia.mejoresgafas.model.Rostro;
+
+//variables globales
+
+
+//reglas para determinacion de la forma del marco de las gafas
+
+rule "R1 - Rostro ovalado"
+
+    when
+        $rostro: Rostro(
+        	menton.isa(Menton.Fino),
+        	mejillas.isa(Mejillas.Anchas),
+        	frente.isa(Frente.Estrecha),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Cualquiera);
+		}	
+
+end
+
+rule "R2 - Rostro alargado"
+
+    when
+        $rostro: Rostro(
+        	frente.isa(Frente.Estrecha),
+        	mejillas.isa(Mejillas.Estrechas),
+        	menton.isa(Menton.Fino),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Anchas);
+		}	
+
+end
+
+rule "R3 - Rostro triangular"
+
+    when
+        $rostro: Rostro(
+        	frente.isa(Frente.Estrecha),
+        	menton.isa(Menton.Pronunciado),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Alargadas);
+		}	
+
+end
+
+rule "R4 - Rostro corazón"
+
+    when
+        $rostro: Rostro(
+        	frente.isa(Frente.Ancha),
+        	mejillas.isa(Mejillas.Anchas),
+        	menton.isa(Menton.Pequeño),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Rectangulares);
+		}	
+
+end
+
+rule "R5 - Rostro cuadrado"
+
+    when
+        $rostro: Rostro(
+        	frente.isa(Frente.Amplia),
+        	pomulos.isa(Pomulos.Amplios),
+        	mandibula.isa(Mandibula.Ancha),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Ovaladas);
+		}	
+
+end
+
+rule "R6 - Rostro redondo"
+
+    when
+        $rostro: Rostro(
+        	rasgos.isa(Rasgos.NoMarcados),
+        	menton.isa(Menton.Corto),
+        	expresion.isa(Expresion.Dulce),
+        	gafas.formaMarco.isa(FormaMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setFormaMarco(FormaMarco.Angulosas);
+		}	
+
+end
+
+//reglas para determinacion del color del marco de las gafas
+
+rule "R7 - Piel clara"
+
+    when
+        $rostro: Rostro(
+        	piel.isa(Piel.Clara),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.MetalicoPlataOEstañoOPastaFrio);
+		}	
+
+end
+
+rule "R8 - Piel oscura"
+
+    when
+        $rostro: Rostro(
+        	piel.isa(Piel.Oscura),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.MetalicoDoradoOBronceOPastaCalido);
+		}	
+
+end
+
+rule "R9 - Cabello claro"
+
+    when
+        $rostro: Rostro(
+        	cabello.isa(Cabello.Claro),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.SuavesYPastel);
+		}	
+
+end
+
+rule "R10 - Cabello rojizo"
+
+    when
+        $rostro: Rostro(
+        	cabello.isa(Cabello.Rojizo),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.GranateOMarronCobrizo);
+		}	
+
+end
+
+rule "R11 - Cabello oscuro"
+
+    when
+        $rostro: Rostro(
+        	cabello.isa(Cabello.Oscuro),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.OscurosEIntensos);
+		}	
+
+end
+
+rule "R12 - Cabello canoso"
+
+    when
+        $rostro: Rostro(
+        	cabello.isa(Cabello.Canoso),
+        	gafas.colorMarco.isa(ColorMarco.NoDeterminado)
+        )
+    
+    then
+		modify($rostro){
+			gafas.setColorMarco(ColorMarco.GrisYLilaClaro);
+		}	
+
+end
